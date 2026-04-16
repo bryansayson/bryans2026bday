@@ -1,7 +1,10 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { isAdmin } from "@/lib/admin"
+import { adminRemoveRSVP } from "@/app/actions"
 import RSVPSection from "@/components/RSVPSection"
+import CourtAssignments from "@/components/CourtAssignments"
 import Image from "next/image"
 
 const AVATAR_COLORS = [
@@ -41,6 +44,7 @@ export default async function Home({
   const myEmail = session?.user?.email?.toLowerCase() ?? null
   const myRsvp = myEmail ? rsvps.find((r) => r.email.toLowerCase() === myEmail) ?? null : null
   const isAlreadyRSVPd = myRsvp !== null
+  const adminUser = isAdmin(session?.user?.email)
 
   return (
     <main className="min-h-screen bg-black">
@@ -124,24 +128,27 @@ export default async function Home({
             {rsvps.map((rsvp: typeof rsvps[number] & { preferredName?: string | null }) => {
               const colorClass = getAvatarColor(rsvp.name)
               const isMe = myRsvp !== null && rsvp.id === myRsvp.id
+              const removeAction = adminRemoveRSVP.bind(null, rsvp.id)
 
-              const avatar = (
-                <>
+              const card = (
+                <div className="relative flex flex-col items-center gap-2">
+                  {adminUser && !isMe && (
+                    <form action={removeAction} className="absolute -top-1 -right-1 z-10">
+                      <button
+                        type="submit"
+                        title="Remove player"
+                        className="w-5 h-5 rounded-full bg-red-700 hover:bg-red-500 text-white text-xs font-bold flex items-center justify-center leading-none transition-colors"
+                      >
+                        ×
+                      </button>
+                    </form>
+                  )}
                   <div className={`relative w-20 h-20 rounded-full overflow-hidden ring-2 shadow-sm transition-all ${isMe ? "ring-purple-500 group-hover:ring-purple-300" : "ring-purple-800"}`}>
                     {rsvp.image ? (
                       rsvp.image.startsWith("data:") ? (
-                        <img
-                          src={rsvp.image}
-                          alt={rsvp.name}
-                          className="absolute inset-0 w-full h-full object-cover"
-                        />
+                        <img src={rsvp.image} alt={rsvp.name} className="absolute inset-0 w-full h-full object-cover" />
                       ) : (
-                        <Image
-                          src={rsvp.image}
-                          alt={rsvp.name}
-                          fill
-                          className="object-cover"
-                        />
+                        <Image src={rsvp.image} alt={rsvp.name} fill className="object-cover" />
                       )
                     ) : (
                       <div className={`w-full h-full flex items-center justify-center font-bold text-2xl ${colorClass}`}>
@@ -157,22 +164,39 @@ export default async function Home({
                   <span className={`text-xs font-medium text-center leading-tight max-w-full truncate transition-colors ${isMe ? "text-purple-400 group-hover:text-purple-300" : "text-zinc-400"}`}>
                     {rsvp.preferredName ?? rsvp.name.split(" ")[0]}
                   </span>
-                </>
+                </div>
               )
 
               return isMe ? (
-                <a key={rsvp.id} href="/profile" className="flex flex-col items-center gap-2 group">
-                  {avatar}
+                <a key={rsvp.id} href="/profile" className="group">
+                  {card}
                 </a>
               ) : (
-                <div key={rsvp.id} className="flex flex-col items-center gap-2">
-                  {avatar}
-                </div>
+                <div key={rsvp.id}>{card}</div>
               )
             })}
           </div>
         )}
       </div>
+
+      {/* Court Assignments */}
+      {rsvps.length > 0 && (
+        <>
+          <div className="max-w-4xl mx-auto px-6 mb-8">
+            <div className="border-t border-zinc-800" />
+          </div>
+          <CourtAssignments
+            players={rsvps.map((r: typeof rsvps[number] & { preferredName?: string | null; court?: number | null }) => ({
+              id: r.id,
+              name: r.name,
+              preferredName: r.preferredName,
+              image: r.image,
+              court: r.court,
+            }))}
+            isAdmin={adminUser}
+          />
+        </>
+      )}
 
       {/* Footer */}
       <div className="border-t border-zinc-800 py-6 text-center text-xs text-zinc-600">

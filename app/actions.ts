@@ -3,6 +3,7 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { isAdmin } from "@/lib/admin"
 import { revalidatePath } from "next/cache"
 
 export async function addRSVP(inviteToken: string, preferredName?: string) {
@@ -58,6 +59,25 @@ export async function updateProfile(preferredName: string, customImage?: string)
 
   revalidatePath("/")
   revalidatePath("/profile")
+}
+
+export async function adminRemoveRSVP(rsvpId: string) {
+  const session = await getServerSession(authOptions)
+  if (!isAdmin(session?.user?.email)) throw new Error("Unauthorized")
+
+  await prisma.rSVP.delete({ where: { id: rsvpId } })
+  revalidatePath("/")
+}
+
+export async function assignCourt(rsvpId: string, court: number | null) {
+  const session = await getServerSession(authOptions)
+  if (!isAdmin(session?.user?.email)) throw new Error("Unauthorized")
+
+  await prisma.rSVP.update({
+    where: { id: rsvpId },
+    data: { court },
+  })
+  revalidatePath("/")
 }
 
 export async function removeRSVP() {

@@ -8,10 +8,11 @@ datasource db {
 }
 
 model RSVP {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  image     String?
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  image         String?
   preferredName String?
-  createdAt DateTime @default(now())
+  court         Int?
+  createdAt     DateTime @default(now())
 }
