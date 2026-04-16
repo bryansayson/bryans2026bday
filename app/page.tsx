@@ -89,16 +89,19 @@ export default async function Home({
 
       {/* Player Count + List */}
       <div className="px-6 py-8 pb-20">
-        <div className="flex items-baseline gap-2 mb-8">
-          <span className="text-3xl font-extrabold text-white">
-            {rsvps.length}
-          </span>
-          <span className="text-zinc-400 font-medium">
-            {rsvps.length === 1 ? "player" : "players"} confirmed
-          </span>
-          {rsvps.length > 0 && (
-            <span className="ml-1 inline-block w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
-          )}
+        <div className="flex flex-col items-center mb-8">
+          <div className="flex items-baseline gap-2">
+            <span className="text-3xl font-extrabold text-white">
+              {rsvps.length}
+            </span>
+            <span className="text-zinc-400 font-medium">
+              {rsvps.length === 1 ? "player" : "players"} confirmed
+            </span>
+            {rsvps.length > 0 && (
+              <span className="ml-1 inline-block w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+            )}
+          </div>
+          <p className="text-zinc-600 text-sm mt-1">competitive but friendly games</p>
         </div>
 
         {rsvps.length === 0 ? (
