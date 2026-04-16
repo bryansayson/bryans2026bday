@@ -41,11 +41,12 @@ export default function RSVPSection({
 }: Props) {
   const [rsvpd, setRsvpd] = useState(isAlreadyRSVPd)
   const [isPending, startTransition] = useTransition()
+  const [preferredName, setPreferredName] = useState(session?.user?.name?.split(" ")[0] ?? "")
   const firstName = session?.user?.name?.split(" ")[0]
 
   const handleRSVP = () => {
     startTransition(async () => {
-      await addRSVP(inviteToken)
+      await addRSVP(inviteToken, preferredName.trim() || undefined)
       setRsvpd(true)
     })
   }
@@ -103,7 +104,7 @@ export default function RSVPSection({
             </button>
           </div>
         ) : (
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex flex-col gap-4">
             <div>
               <p className="font-semibold text-white">
                 You&apos;re invited, {firstName}!
@@ -112,13 +113,27 @@ export default function RSVPSection({
                 Lock in your spot for the tournament.
               </p>
             </div>
-            <button
-              onClick={handleRSVP}
-              disabled={isPending}
-              className="bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white px-5 py-2 rounded-xl font-semibold text-sm transition-colors disabled:opacity-50 whitespace-nowrap"
-            >
-              {isPending ? "Saving..." : "Count me in"}
-            </button>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-medium text-zinc-400 uppercase tracking-wider">
+                Preferred Name
+              </label>
+              <input
+                type="text"
+                value={preferredName}
+                onChange={(e) => setPreferredName(e.target.value)}
+                placeholder="What should we call you?"
+                className="bg-zinc-800 border border-zinc-700 text-white placeholder-zinc-600 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-purple-500 transition-colors"
+              />
+            </div>
+<div className="flex justify-end">
+              <button
+                onClick={handleRSVP}
+                disabled={isPending || !preferredName.trim()}
+                className="bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white px-5 py-2 rounded-xl font-semibold text-sm transition-colors disabled:opacity-50 whitespace-nowrap"
+              >
+                {isPending ? "Saving..." : "Count me in"}
+              </button>
+            </div>
           </div>
         )}
       </div>

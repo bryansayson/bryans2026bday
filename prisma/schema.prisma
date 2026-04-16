@@ -12,5 +12,6 @@ model RSVP {
   name      String
   email     String   @unique
   image     String?
+  preferredName String?
   createdAt DateTime @default(now())
 }

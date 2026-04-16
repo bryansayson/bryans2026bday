@@ -131,7 +131,7 @@ export default async function Home({
                     )}
                   </div>
                   <span className="text-xs text-zinc-400 font-medium text-center leading-tight max-w-full truncate">
-                    {rsvp.name.split(" ")[0]}
+                    {rsvp.preferredName ?? rsvp.name.split(" ")[0]}
                   </span>
                 </div>
               )

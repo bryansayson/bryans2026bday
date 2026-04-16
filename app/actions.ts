@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 
-export async function addRSVP(inviteToken: string) {
+export async function addRSVP(inviteToken: string, preferredName?: string) {
   const session = await getServerSession(authOptions)
 
   if (!session?.user?.email) {
@@ -18,11 +18,14 @@ export async function addRSVP(inviteToken: string) {
 
   await prisma.rSVP.upsert({
     where: { email: session.user.email },
-    update: {},
+    update: {
+      preferredName: preferredName || null,
+    },
     create: {
       name: session.user.name ?? "Unknown",
       email: session.user.email,
       image: session.user.image ?? null,
+      preferredName: preferredName || null,
     },
   })
 
