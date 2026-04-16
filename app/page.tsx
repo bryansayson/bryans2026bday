@@ -106,7 +106,7 @@ export default async function Home({
             No players yet — be the first to lock in your spot.
           </p>
         ) : (
-          <div className="grid grid-cols-4 sm:grid-cols-8 gap-6">
+          <div className="flex flex-wrap justify-center gap-6">
             {rsvps.map((rsvp) => {
               const colorClass = getAvatarColor(rsvp.name)
               return (
