@@ -1,22 +1,36 @@
 {
   "node": {
-    "4e1f72f807d6719518e95bb3230ff53daa5b1d71": {
+    "45e68cfdf7fda9e2273eb07b4dd0bc4648f24734": {
       "workers": {
-        "app/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fbryansayson%2FDesktop%2FCode%2Fbryans2026bday%2Fapp%2Factions.ts%22%2C%5B%22removeRSVP%22%2C%22addRSVP%22%5D%5D%5D&__client_imported__=true!"
+        "app/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fbryansayson%2FDesktop%2FCode%2Fbryans2026bday%2Fapp%2Factions.ts%22%2C%5B%22updateProfile%22%2C%22removeRSVP%22%2C%22addRSVP%22%5D%5D%5D&__client_imported__=true!",
+        "app/profile/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fbryansayson%2FDesktop%2FCode%2Fbryans2026bday%2Fapp%2Factions.ts%22%2C%5B%22updateProfile%22%2C%22removeRSVP%22%2C%22addRSVP%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/page": "action-browser"
+        "app/page": "action-browser",
+        "app/profile/page": "action-browser"
+      }
+    },
+    "4e1f72f807d6719518e95bb3230ff53daa5b1d71": {
+      "workers": {
+        "app/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fbryansayson%2FDesktop%2FCode%2Fbryans2026bday%2Fapp%2Factions.ts%22%2C%5B%22updateProfile%22%2C%22removeRSVP%22%2C%22addRSVP%22%5D%5D%5D&__client_imported__=true!",
+        "app/profile/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fbryansayson%2FDesktop%2FCode%2Fbryans2026bday%2Fapp%2Factions.ts%22%2C%5B%22updateProfile%22%2C%22removeRSVP%22%2C%22addRSVP%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/page": "action-browser",
+        "app/profile/page": "action-browser"
       }
     },
     "6d82ff856f0f96f2383b60750df375506d9bfe8a": {
       "workers": {
-        "app/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fbryansayson%2FDesktop%2FCode%2Fbryans2026bday%2Fapp%2Factions.ts%22%2C%5B%22removeRSVP%22%2C%22addRSVP%22%5D%5D%5D&__client_imported__=true!"
+        "app/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fbryansayson%2FDesktop%2FCode%2Fbryans2026bday%2Fapp%2Factions.ts%22%2C%5B%22updateProfile%22%2C%22removeRSVP%22%2C%22addRSVP%22%5D%5D%5D&__client_imported__=true!",
+        "app/profile/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fbryansayson%2FDesktop%2FCode%2Fbryans2026bday%2Fapp%2Factions.ts%22%2C%5B%22updateProfile%22%2C%22removeRSVP%22%2C%22addRSVP%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/page": "action-browser"
+        "app/page": "action-browser",
+        "app/profile/page": "action-browser"
       }
     }
   },
   "edge": {},
-  "encryptionKey": "4ic4VoZyyCcH1XiymI8CemtnlxnReDm2ekVdD7LEgyw="
+  "encryptionKey": "jcscGVjTWywi+AB9BuiuZJSk6XoE05SoXIOOuwd5ojQ="
 }

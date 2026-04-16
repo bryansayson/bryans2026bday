@@ -38,9 +38,9 @@ export default async function Home({
     orderBy: { createdAt: "asc" },
   })
 
-  const isAlreadyRSVPd = session?.user?.email
-    ? rsvps.some((r) => r.email === session.user!.email)
-    : false
+  const myEmail = session?.user?.email?.toLowerCase() ?? null
+  const myRsvp = myEmail ? rsvps.find((r) => r.email.toLowerCase() === myEmail) ?? null : null
+  const isAlreadyRSVPd = myRsvp !== null
 
   return (
     <main className="min-h-screen bg-black">
@@ -64,11 +64,18 @@ export default async function Home({
           <span className="text-white font-bold text-lg">📍 Scholl Canyon, Glendale — Courts TBD</span>
         </div>
 
-        {/* RSVP deadline callout */}
-        <div className="mt-6 inline-flex items-center gap-2 bg-purple-950 border border-purple-700 rounded-xl px-4 py-2">
-          <span className="text-purple-300 text-sm font-semibold">
-            RSVP by May 15th
-          </span>
+        <div className="mt-6 flex items-center gap-4">
+          <div className="inline-flex items-center gap-2 bg-purple-950 border border-purple-700 rounded-xl px-4 py-2">
+            <span className="text-purple-300 text-sm font-semibold">
+              RSVP by May 15th
+            </span>
+          </div>
+          <a
+            href="/profile"
+            className="inline-flex items-center gap-2 bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-2 text-sm font-semibold text-zinc-300 hover:text-white hover:border-zinc-500 transition-colors"
+          >
+            ✏️ Edit Profile
+          </a>
         </div>
       </div>
 
@@ -114,32 +121,52 @@ export default async function Home({
           </p>
         ) : (
           <div className="flex flex-wrap justify-center gap-6">
-            {rsvps.map((rsvp) => {
+            {rsvps.map((rsvp: typeof rsvps[number] & { preferredName?: string | null }) => {
               const colorClass = getAvatarColor(rsvp.name)
-              return (
-                <div
-                  key={rsvp.id}
-                  className="flex flex-col items-center gap-2"
-                >
-                  <div className="relative w-20 h-20 rounded-full overflow-hidden ring-2 ring-purple-800 shadow-sm">
+              const isMe = myRsvp !== null && rsvp.id === myRsvp.id
+
+              const avatar = (
+                <>
+                  <div className={`relative w-20 h-20 rounded-full overflow-hidden ring-2 shadow-sm transition-all ${isMe ? "ring-purple-500 group-hover:ring-purple-300" : "ring-purple-800"}`}>
                     {rsvp.image ? (
-                      <Image
-                        src={rsvp.image}
-                        alt={rsvp.name}
-                        fill
-                        className="object-cover"
-                      />
+                      rsvp.image.startsWith("data:") ? (
+                        <img
+                          src={rsvp.image}
+                          alt={rsvp.name}
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                      ) : (
+                        <Image
+                          src={rsvp.image}
+                          alt={rsvp.name}
+                          fill
+                          className="object-cover"
+                        />
+                      )
                     ) : (
-                      <div
-                        className={`w-full h-full flex items-center justify-center font-bold text-2xl ${colorClass}`}
-                      >
+                      <div className={`w-full h-full flex items-center justify-center font-bold text-2xl ${colorClass}`}>
                         {rsvp.name[0].toUpperCase()}
                       </div>
                     )}
+                    {isMe && (
+                      <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span className="text-white text-xs font-semibold">Edit</span>
+                      </div>
+                    )}
                   </div>
-                  <span className="text-xs text-zinc-400 font-medium text-center leading-tight max-w-full truncate">
+                  <span className={`text-xs font-medium text-center leading-tight max-w-full truncate transition-colors ${isMe ? "text-purple-400 group-hover:text-purple-300" : "text-zinc-400"}`}>
                     {rsvp.preferredName ?? rsvp.name.split(" ")[0]}
                   </span>
+                </>
+              )
+
+              return isMe ? (
+                <a key={rsvp.id} href="/profile" className="flex flex-col items-center gap-2 group">
+                  {avatar}
+                </a>
+              ) : (
+                <div key={rsvp.id} className="flex flex-col items-center gap-2">
+                  {avatar}
                 </div>
               )
             })}
