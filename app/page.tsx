@@ -5,14 +5,14 @@ import RSVPSection from "@/components/RSVPSection"
 import Image from "next/image"
 
 const AVATAR_COLORS = [
-  "bg-green-100 text-green-700",
-  "bg-blue-100 text-blue-700",
-  "bg-amber-100 text-amber-700",
-  "bg-rose-100 text-rose-700",
-  "bg-purple-100 text-purple-700",
-  "bg-cyan-100 text-cyan-700",
-  "bg-orange-100 text-orange-700",
-  "bg-teal-100 text-teal-700",
+  "bg-purple-900 text-purple-300",
+  "bg-violet-900 text-violet-300",
+  "bg-fuchsia-900 text-fuchsia-300",
+  "bg-indigo-900 text-indigo-300",
+  "bg-purple-800 text-purple-200",
+  "bg-violet-800 text-violet-200",
+  "bg-fuchsia-800 text-fuchsia-200",
+  "bg-indigo-800 text-indigo-200",
 ]
 
 function getAvatarColor(name: string) {
@@ -43,29 +43,29 @@ export default async function Home({
     : false
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-black">
       {/* Top accent bar */}
-      <div className="h-1 bg-green-500" />
+      <div className="h-1 bg-purple-600" />
 
       {/* Header */}
       <div className="max-w-2xl mx-auto px-6 pt-14 pb-10">
         <div className="text-4xl mb-5">🏓</div>
-        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 leading-none">
+        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white leading-none">
           Bryan&apos;s Birthday
           <br />
           Open Play
         </h1>
-        <p className="mt-3 text-base font-medium text-gray-500 uppercase tracking-widest text-sm">
+        <p className="mt-3 text-base font-medium text-purple-400 uppercase tracking-widest text-sm">
           Pickleball Tournament
         </p>
-        <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500">
+        <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm text-zinc-400">
           <span>📅 May 23, 2025</span>
           <span>📍 Scholl Canyon, Glendale — Courts TBD</span>
         </div>
 
         {/* RSVP deadline callout */}
-        <div className="mt-6 inline-flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2">
-          <span className="text-amber-600 text-sm font-semibold">
+        <div className="mt-6 inline-flex items-center gap-2 bg-purple-950 border border-purple-700 rounded-xl px-4 py-2">
+          <span className="text-purple-300 text-sm font-semibold">
             RSVP by May 15th
           </span>
         </div>
@@ -73,7 +73,7 @@ export default async function Home({
 
       {/* Divider */}
       <div className="max-w-2xl mx-auto px-6">
-        <div className="border-t border-gray-100" />
+        <div className="border-t border-zinc-800" />
       </div>
 
       {/* RSVP Section — only visible with invite link */}
@@ -90,19 +90,19 @@ export default async function Home({
       {/* Player Count + List */}
       <div className="max-w-2xl mx-auto px-6 py-8 pb-20">
         <div className="flex items-baseline gap-2 mb-8">
-          <span className="text-3xl font-extrabold text-gray-900">
+          <span className="text-3xl font-extrabold text-white">
             {rsvps.length}
           </span>
-          <span className="text-gray-400 font-medium">
+          <span className="text-zinc-400 font-medium">
             {rsvps.length === 1 ? "player" : "players"} confirmed
           </span>
           {rsvps.length > 0 && (
-            <span className="ml-1 inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <span className="ml-1 inline-block w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
           )}
         </div>
 
         {rsvps.length === 0 ? (
-          <p className="text-gray-300 text-sm">
+          <p className="text-zinc-600 text-sm">
             No players yet — be the first to lock in your spot.
           </p>
         ) : (
@@ -114,7 +114,7 @@ export default async function Home({
                   key={rsvp.id}
                   className="flex flex-col items-center gap-2"
                 >
-                  <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-white shadow-sm">
+                  <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-purple-800 shadow-sm">
                     {rsvp.image ? (
                       <Image
                         src={rsvp.image}
@@ -130,7 +130,7 @@ export default async function Home({
                       </div>
                     )}
                   </div>
-                  <span className="text-xs text-gray-600 font-medium text-center leading-tight max-w-full truncate">
+                  <span className="text-xs text-zinc-400 font-medium text-center leading-tight max-w-full truncate">
                     {rsvp.name.split(" ")[0]}
                   </span>
                 </div>
@@ -141,7 +141,7 @@ export default async function Home({
       </div>
 
       {/* Footer */}
-      <div className="border-t border-gray-50 py-6 text-center text-xs text-gray-300">
+      <div className="border-t border-zinc-800 py-6 text-center text-xs text-zinc-600">
         Bryan&apos;s Birthday Open Play · May 23, 2025
       </div>
     </main>

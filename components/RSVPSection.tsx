@@ -62,15 +62,15 @@ export default function RSVPSection({
       <div
         className={`rounded-2xl border p-5 transition-colors ${
           rsvpd
-            ? "border-green-200 bg-green-50"
-            : "border-amber-200 bg-amber-50"
+            ? "border-purple-700 bg-purple-950"
+            : "border-zinc-700 bg-zinc-900"
         }`}
       >
         {!session ? (
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <p className="font-semibold text-gray-900">You&apos;re invited!</p>
-              <p className="text-sm text-gray-500 mt-0.5">
+              <p className="font-semibold text-white">You&apos;re invited!</p>
+              <p className="text-sm text-zinc-400 mt-0.5">
                 Sign in with Google to confirm your spot.
               </p>
             </div>
@@ -78,7 +78,7 @@ export default function RSVPSection({
               onClick={() =>
                 signIn("google", { callbackUrl: `/?invite=${inviteToken}` })
               }
-              className="flex items-center gap-2 bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-xl font-medium text-sm hover:bg-gray-50 transition-colors shadow-sm whitespace-nowrap"
+              className="flex items-center gap-2 bg-zinc-800 border border-zinc-600 text-zinc-100 px-4 py-2 rounded-xl font-medium text-sm hover:bg-zinc-700 transition-colors shadow-sm whitespace-nowrap"
             >
               <GoogleIcon />
               Sign in with Google
@@ -87,17 +87,17 @@ export default function RSVPSection({
         ) : rsvpd ? (
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <p className="font-semibold text-gray-900">
+              <p className="font-semibold text-white">
                 You&apos;re in, {firstName}!
               </p>
-              <p className="text-sm text-gray-500 mt-0.5">
+              <p className="text-sm text-zinc-400 mt-0.5">
                 See you on the court May 23rd.
               </p>
             </div>
             <button
               onClick={handleRemove}
               disabled={isPending}
-              className="text-sm text-gray-400 hover:text-red-500 transition-colors disabled:opacity-40"
+              className="text-sm text-zinc-500 hover:text-red-400 transition-colors disabled:opacity-40"
             >
               Can&apos;t make it? Remove RSVP
             </button>
@@ -105,17 +105,17 @@ export default function RSVPSection({
         ) : (
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <p className="font-semibold text-gray-900">
+              <p className="font-semibold text-white">
                 You&apos;re invited, {firstName}!
               </p>
-              <p className="text-sm text-gray-500 mt-0.5">
+              <p className="text-sm text-zinc-400 mt-0.5">
                 Lock in your spot for the tournament.
               </p>
             </div>
             <button
               onClick={handleRSVP}
               disabled={isPending}
-              className="bg-green-600 hover:bg-green-700 active:bg-green-800 text-white px-5 py-2 rounded-xl font-semibold text-sm transition-colors disabled:opacity-50 whitespace-nowrap"
+              className="bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white px-5 py-2 rounded-xl font-semibold text-sm transition-colors disabled:opacity-50 whitespace-nowrap"
             >
               {isPending ? "Saving..." : "Count me in"}
             </button>
