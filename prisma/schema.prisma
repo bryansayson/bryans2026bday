@@ -16,3 +16,14 @@ model RSVP {
   court         Int?
   createdAt     DateTime @default(now())
 }
+
+model Match {
+  id        String   @id @default(cuid())
+  court     Int
+  round     Int
+  team1p1   String
+  team1p2   String
+  team2p1   String
+  team2p2   String
+  createdAt DateTime @default(now())
+}

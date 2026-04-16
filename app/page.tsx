@@ -37,9 +37,10 @@ export default async function Home({
   const inviteToken = Array.isArray(rawToken) ? rawToken[0] : rawToken
   const isInvited = !!inviteToken && inviteToken === process.env.INVITE_SECRET
 
-  const rsvps = await prisma.rSVP.findMany({
-    orderBy: { createdAt: "asc" },
-  })
+  const [rsvps, matches] = await Promise.all([
+    prisma.rSVP.findMany({ orderBy: { createdAt: "asc" } }),
+    prisma.match.findMany({ orderBy: [{ court: "asc" }, { round: "asc" }] }),
+  ])
 
   const myEmail = session?.user?.email?.toLowerCase() ?? null
   const myRsvp = myEmail ? rsvps.find((r) => r.email.toLowerCase() === myEmail) ?? null : null
@@ -186,13 +187,14 @@ export default async function Home({
             <div className="border-t border-zinc-800" />
           </div>
           <CourtAssignments
-            players={rsvps.map((r: typeof rsvps[number] & { preferredName?: string | null; court?: number | null }) => ({
+            players={rsvps.map((r) => ({
               id: r.id,
               name: r.name,
               preferredName: r.preferredName,
               image: r.image,
               court: r.court,
             }))}
+            matches={matches}
             isAdmin={adminUser}
           />
         </>

@@ -80,6 +80,31 @@ export async function assignCourt(rsvpId: string, court: number | null) {
   revalidatePath("/")
 }
 
+export async function createMatch(
+  court: number,
+  round: number,
+  team1p1: string,
+  team1p2: string,
+  team2p1: string,
+  team2p2: string
+) {
+  const session = await getServerSession(authOptions)
+  if (!isAdmin(session?.user?.email)) throw new Error("Unauthorized")
+
+  await prisma.match.create({
+    data: { court, round, team1p1, team1p2, team2p1, team2p2 },
+  })
+  revalidatePath("/")
+}
+
+export async function deleteMatch(matchId: string) {
+  const session = await getServerSession(authOptions)
+  if (!isAdmin(session?.user?.email)) throw new Error("Unauthorized")
+
+  await prisma.match.delete({ where: { id: matchId } })
+  revalidatePath("/")
+}
+
 export async function removeRSVP() {
   const session = await getServerSession(authOptions)
 
