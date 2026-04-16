@@ -58,9 +58,10 @@ export default async function Home({
         <p className="mt-3 text-base font-medium text-purple-400 uppercase tracking-widest text-sm">
           Pickleball Tournament
         </p>
-        <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm text-zinc-400">
+        <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-base text-zinc-300 font-medium">
           <span>📅 May 23, 2025</span>
-          <span>📍 Scholl Canyon, Glendale — Courts TBD</span>
+          <span>🕓 4–7 PM</span>
+          <span className="text-white font-bold text-lg">📍 Scholl Canyon, Glendale — Courts TBD</span>
         </div>
 
         {/* RSVP deadline callout */}
@@ -101,7 +102,10 @@ export default async function Home({
               <span className="ml-1 inline-block w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
             )}
           </div>
-          <p className="text-zinc-600 text-sm mt-1">competitive but friendly games</p>
+          <p className="text-white font-bold text-lg mt-2 text-center leading-snug">
+            friendly but competitive rotating partners round robin tournament with medal rounds!
+          </p>
+          <p className="text-purple-400 font-semibold text-base mt-1 tracking-wide">4–7 PM</p>
         </div>
 
         {rsvps.length === 0 ? (
