@@ -18,13 +18,16 @@ const AVATAR_COLORS = [
   "bg-indigo-800 text-indigo-200",
 ]
 
-function getAvatarColor(name: string) {
-  let hash = 0
-  for (let i = 0; i < name.length; i++) {
-    hash = (hash + name.charCodeAt(i)) % AVATAR_COLORS.length
-  }
-  return AVATAR_COLORS[hash]
+function nameHash(name: string, mod: number) {
+  let h = 0
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0
+  return h % mod
 }
+
+function getAvatarColor(name: string) {
+  return AVATAR_COLORS[nameHash(name, AVATAR_COLORS.length)]
+}
+
 
 export default async function Home({
   searchParams,
@@ -57,8 +60,6 @@ export default async function Home({
         <div className="text-4xl mb-5">🏓</div>
         <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white leading-none">
           Bryan&apos;s Birthday
-          <br />
-          Open Play
         </h1>
         <p className="mt-3 text-base font-medium text-purple-400 uppercase tracking-widest text-sm">
           Pickleball Tournament
@@ -124,7 +125,7 @@ export default async function Home({
             No players yet — be the first to lock in your spot.
           </p>
         ) : (
-          <div className="flex flex-wrap justify-center gap-6">
+          <div className="grid grid-cols-4 gap-6">
             {rsvps.map((rsvp: typeof rsvps[number] & { preferredName?: string | null }) => {
               const colorClass = getAvatarColor(rsvp.name)
               const isMe = myRsvp !== null && rsvp.id === myRsvp.id
@@ -143,7 +144,7 @@ export default async function Home({
                       </button>
                     </form>
                   )}
-                  <div className={`relative w-20 h-20 rounded-full overflow-hidden ring-2 shadow-sm transition-all ${isMe ? "ring-purple-500 group-hover:ring-purple-300" : "ring-purple-800"}`}>
+                  <div className={`relative w-28 h-28 rounded-full overflow-hidden ring-2 shadow-sm ${isMe ? "ring-purple-500 group-hover:ring-purple-300" : "ring-purple-800"}`}>
                     {rsvp.image ? (
                       rsvp.image.startsWith("data:") ? (
                         <img src={rsvp.image} alt={rsvp.name} className="absolute inset-0 w-full h-full object-cover" />
@@ -161,7 +162,7 @@ export default async function Home({
                       </div>
                     )}
                   </div>
-                  <span className={`text-xs font-medium text-center leading-tight max-w-full truncate transition-colors ${isMe ? "text-purple-400 group-hover:text-purple-300" : "text-zinc-400"}`}>
+                  <span className={`text-xs font-medium text-center leading-tight max-w-full truncate ${isMe ? "text-purple-400 group-hover:text-purple-300" : "text-zinc-400"}`}>
                     {rsvp.preferredName ?? rsvp.name.split(" ")[0]}
                   </span>
                 </div>
@@ -201,7 +202,7 @@ export default async function Home({
 
       {/* Footer */}
       <div className="border-t border-zinc-800 py-6 text-center text-xs text-zinc-600">
-        Bryan&apos;s Birthday Open Play · May 23, 2025
+        Bryan&apos;s Birthday Tournament · May 23, 2025
       </div>
     </main>
   )

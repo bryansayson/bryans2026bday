@@ -94,8 +94,15 @@ export default function CourtAssignments({
         e.preventDefault()
         setOverZone(zoneKey(court))
       },
-      onDragLeave: () => setOverZone(null),
-      onDrop: () => handleDrop(court),
+      onDragLeave: (e: React.DragEvent) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+          setOverZone(null)
+        }
+      },
+      onDrop: (e: React.DragEvent) => {
+        e.preventDefault()
+        handleDrop(court)
+      },
     }
   }
 
@@ -117,21 +124,45 @@ export default function CourtAssignments({
   function PlayerCard({ player }: { player: Player }) {
     const displayName = player.preferredName || player.name.split(" ")[0]
     const isDragging = draggingId === player.id
+    const currentCourt = assignments[player.id] ?? null
+
+    function handleCourtChange(e: React.ChangeEvent<HTMLSelectElement>) {
+      const val = e.target.value
+      const court = val === "" ? null : Number(val)
+      setAssignments((prev) => ({ ...prev, [player.id]: court }))
+      startTransition(async () => {
+        await assignCourt(player.id, court)
+      })
+    }
+
     return (
       <div
         {...playerDragProps(player.id)}
-        className={`flex items-center gap-2 py-1.5 rounded-lg px-1 transition-opacity ${
+        className={`flex flex-col items-center gap-1 py-2 px-1 rounded-lg transition-opacity ${
           isAdmin ? "cursor-grab active:cursor-grabbing" : ""
         } ${isDragging ? "opacity-30" : "opacity-100"}`}
       >
-        <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 bg-purple-900 flex items-center justify-center text-xs font-bold text-purple-200">
+        <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-purple-900 flex items-center justify-center text-xs font-bold text-purple-200">
           {player.image ? (
             <img src={player.image} alt={displayName} className="w-full h-full object-cover" />
           ) : (
             displayName[0].toUpperCase()
           )}
         </div>
-        <span className="text-sm text-zinc-300 truncate">{displayName}</span>
+        <span className="text-xs text-zinc-300 truncate w-full text-center leading-tight">{displayName}</span>
+        {isAdmin && (
+          <select
+            value={currentCourt ?? ""}
+            onChange={handleCourtChange}
+            onPointerDown={(e) => e.stopPropagation()}
+            className="w-full text-[10px] bg-zinc-800 border border-zinc-700 rounded px-1 py-0.5 text-zinc-500 cursor-pointer"
+          >
+            <option value="">Unassigned</option>
+            {COURTS.map((c) => (
+              <option key={c} value={c}>Court {c}</option>
+            ))}
+          </select>
+        )}
       </div>
     )
   }
@@ -218,35 +249,35 @@ export default function CourtAssignments({
     return (
       <div
         {...courtZoneProps(court)}
-        className={`rounded-xl border p-4 transition-colors ${
+        className={`rounded-xl border p-4 flex flex-col transition-colors ${
           court === null
             ? "bg-zinc-950 border-zinc-800"
-            : "bg-zinc-900 border-zinc-800"
+            : "bg-zinc-900 border-zinc-800 h-[400px]"
         } ${isOver ? "border-purple-500 bg-purple-950/30" : ""}`}
       >
         {/* Court header */}
-        <div className="flex items-center gap-2 mb-3">
+        <div className="flex items-center gap-2 mb-3 flex-shrink-0">
           <span className="text-xl font-bold text-white">{label}</span>
           <span className="ml-auto text-xs text-zinc-600">{assigned.length}</span>
         </div>
 
         {/* Players */}
-        <div className="space-y-0.5 min-h-[32px]">
+        <div className="flex-1 min-h-0 overflow-y-auto grid grid-cols-2 gap-1 content-start">
           {assigned.length === 0 ? (
-            <p className={`text-xs italic pt-2 text-center ${isOver ? "text-purple-400" : "text-zinc-700"}`}>
+            <p className={`col-span-2 text-xs italic pt-2 text-center ${isOver ? "text-purple-400" : "text-zinc-700"}`}>
               {isOver ? "Drop here" : "Empty"}
             </p>
           ) : (
             assigned.map((p) => <PlayerCard key={p.id} player={p} />)
           )}
           {isOver && assigned.length > 0 && (
-            <div className="h-8 rounded-lg border-2 border-dashed border-purple-500/50 mt-1" />
+            <div className="col-span-1 h-12 rounded-lg border-2 border-dashed border-purple-500/50" />
           )}
         </div>
 
-        {/* Match schedule */}
+        {/* Match schedule — pinned to bottom */}
         {court !== null && (
-          <div className="mt-4 pt-3 border-t border-zinc-800">
+          <div className="flex-shrink-0 mt-4 pt-3 border-t border-zinc-800">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Schedule</span>
               {isAdmin && addingMatchFor !== court && (
