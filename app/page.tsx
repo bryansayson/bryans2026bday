@@ -88,7 +88,7 @@ export default async function Home({
       )}
 
       {/* Player Count + List */}
-      <div className="max-w-2xl mx-auto px-6 py-8 pb-20">
+      <div className="px-6 py-8 pb-20">
         <div className="flex items-baseline gap-2 mb-8">
           <span className="text-3xl font-extrabold text-white">
             {rsvps.length}
@@ -106,7 +106,7 @@ export default async function Home({
             No players yet — be the first to lock in your spot.
           </p>
         ) : (
-          <div className="grid grid-cols-4 sm:grid-cols-6 gap-6">
+          <div className="grid grid-cols-4 sm:grid-cols-8 gap-6">
             {rsvps.map((rsvp) => {
               const colorClass = getAvatarColor(rsvp.name)
               return (
@@ -114,7 +114,7 @@ export default async function Home({
                   key={rsvp.id}
                   className="flex flex-col items-center gap-2"
                 >
-                  <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-purple-800 shadow-sm">
+                  <div className="relative w-20 h-20 rounded-full overflow-hidden ring-2 ring-purple-800 shadow-sm">
                     {rsvp.image ? (
                       <Image
                         src={rsvp.image}
@@ -124,7 +124,7 @@ export default async function Home({
                       />
                     ) : (
                       <div
-                        className={`w-full h-full flex items-center justify-center font-bold text-xl ${colorClass}`}
+                        className={`w-full h-full flex items-center justify-center font-bold text-2xl ${colorClass}`}
                       >
                         {rsvp.name[0].toUpperCase()}
                       </div>
