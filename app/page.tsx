@@ -117,7 +117,6 @@ export default async function Home({
           <p className="text-white font-bold text-lg mt-2 text-center leading-snug">
             friendly but competitive rotating partners round robin tournament with medal rounds!
           </p>
-          <p className="text-purple-400 font-semibold text-base mt-1 tracking-wide">4–7 PM</p>
         </div>
 
         {rsvps.length === 0 ? (

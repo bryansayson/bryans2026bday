@@ -226,12 +226,7 @@ export default function CourtAssignments({
       >
         {/* Court header */}
         <div className="flex items-center gap-2 mb-3">
-          {court !== null && (
-            <div className="w-6 h-6 rounded-full bg-purple-900 flex items-center justify-center text-xs font-bold text-purple-300">
-              {court}
-            </div>
-          )}
-          <span className="text-sm font-semibold text-white">{label}</span>
+          <span className="text-xl font-bold text-white">{label}</span>
           <span className="ml-auto text-xs text-zinc-600">{assigned.length}</span>
         </div>
 
